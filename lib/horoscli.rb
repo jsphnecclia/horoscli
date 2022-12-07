@@ -1,14 +1,6 @@
 #require 'rueph'
 require_relative 'rueph.rb'
 
-#TODO TODO TODO TODO TODO TODO TODO TODO
-##*search for aspects with negative hour values
-##*search for more void of course errors -- tests, tests, tests
-##*investigate the timezone multiple of 3 errors
-##*clean up/comment daily_lunar_transit return values
-##*refactor all functions
-##*return errstring with Rueph functions, or catch error
-
 class Horoscli
   include Rueph
 
@@ -30,7 +22,7 @@ class Horoscli
 
     @hsystem = hsystem.ord
 
-    # Lazy
+    # Lazy attributes
     @lunar_aspects = nil
     @lunar_transit = nil
     @houses_cusps  = nil
