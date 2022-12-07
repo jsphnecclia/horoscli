@@ -1,0 +1,53 @@
+# Rueph & Horoscli
+#TODO
+#replace wget -P with equivalent curl command
+
+## Pre-Installation
+```
+bundle install
+rake c_build
+rake get_ephe
+```
+
+
+## Installation
+
+There are several different methods of installation based on what your purposes are
+
+All installations require installation of the libswe.so library file and some
+ephemeris files.
+ 
+Install the library thusly:
+
+```
+wget https://www.astro.com/ftp/swisseph/swe_unix_src_2.10.02.tar.gz
+tar xvf swe_unix_src_2.10.02.tar.gz
+cd src && make libswe.so
+# mv src/libswe.so /usr/local/lib/libswe.so
+rm -rf src
+rm -rf doc
+rm swe_unix_src_2.09.03.tar.gz 
+```
+
+and the ephemeris files:
+```
+mkdir ephe
+wget -P ephe https://www.astro.com/ftp/swisseph/ephe/seas_12.se1
+wget -P ephe https://www.astro.com/ftp/swisseph/ephe/seas_18.se1
+wget -P ephe https://www.astro.com/ftp/swisseph/ephe/sefstars.txt
+wget -P ephe https://www.astro.com/ftp/swisseph/ephe/semo_12.se1
+wget -P ephe https://www.astro.com/ftp/swisseph/ephe/semo_18.se1
+wget -P ephe https://www.astro.com/ftp/swisseph/ephe/sepl_12.se1
+wget -P ephe https://www.astro.com/ftp/swisseph/ephe/sepl_18.se1
+```
+
+if you just want to use horoscli, install the horoscli gem.
+
+if you want to hack around on horoscli,...
+but please, do share what you make!
+
+if you are planning to build a program using rueph, eventually you will use
+the rueph gem. However, it is recommended that before that you take a deep
+look into the horoscli example program as well as the foreign function
+interface itself in rueph.rb and ruephbase.rb. Hack around on those two files,
+but please, do share what you make!
