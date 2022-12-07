@@ -102,9 +102,17 @@ RETROGRADES_EXP = { sun: "",
                     neptune: "",
                     pluto: ""}
 
+ARGV << '-h' if ARGV.empty?
+
 options = {}
 
 OptionParser.new do |parser|
+  # parser.on("-g", "--general"
+
+  parser.on("-g", "--general", "Print general instantaneous information then exit.") do 
+    options[:general] = true
+  end
+
   parser.on("-d", "--date DATETIME", "Perform calculations for a certain date, e.g. 2020-10-23 14:00. Natural Language Supported") do |date|
     options[:date] = Chronic.parse(date)
   end
@@ -135,6 +143,25 @@ OptionParser.new do |parser|
   parser.on("--degree-of [PLANET]", "What degree of sign is PLANET in?") do |planet|
     options[:sign_of_degree] = true
     options[:planet] = planet.upcase if planet
+  end
+
+  parser.on("-h", "--help [TOPIC]", "General help or information on a particular topic.") do |topic|
+    unless topic
+      puts <<~DOC
+
+      Horoscli is a general astrological tool. It can take arguments
+      and return information specific to your time and location. It can
+      also output general information to help decipher the meaning in the
+      astrological placement of the moon and the angles the moon makes
+      with the other planets. There are other tools as well.
+      
+      DOC
+      puts parser
+      exit
+    end
+
+    options[:help_topic] = topic.upcase
+    puts options[:help_topic]
   end
 end.parse!
 
@@ -262,37 +289,28 @@ elsif options[:bar]
   end
   horos.close
   return
+elsif options[:general]
+  # Prints Sign of Sun
+  puts "SUN in #{horos.sign_of(Rueph::SUN)}"
+
+  # Prints Sign of Moon
+  horos.print_lunar_instant
+  puts
+
+  # Prints Aspects of the Moon
+  puts "Daily Lunar Aspects"
+  horos.print_lunar_aspects
+  puts 
+
+  # Prints last aspect before vc moon
+  puts "Last Aspect Before Void of Course Moon"
+  puts horos.print_last_aspect_before_void 
+  puts
+
+  # Prints Course of Moon through the Day
+  puts "Lunar Transit"
+  horos.print_lunar_transit
+  puts
 end
-
-
-
-
-# horos.location = options[:loc].first.coordinates[0], options[:loc].first.coordinates[1]
-# horos.set_topo(horos.location[0], horos.location[1], 0)
-# horos.flags += Rueph::FLG_TOPOCTR
-#
-# puts "#{Rueph::houses(horos.location[0], horos.location[1], Rueph::time_to_array(time))}"
-
-# Prints Sign of Sun
-puts "SUN in #{horos.sign_of(Rueph::SUN)}"
-
-# Prints Sign of Moon
-horos.print_lunar_instant
-puts
-
-# Prints Aspects of the Moon
-puts "Daily Lunar Aspects"
-horos.print_lunar_aspects
-puts 
-
-# Prints last aspect before vc moon
-puts "Last Aspect Before Void of Course Moon"
-puts horos.print_last_aspect_before_void 
-puts
-
-# Prints Course of Moon through the Day
-puts "Lunar Transit"
-horos.print_lunar_transit
-puts
 
 horos.close

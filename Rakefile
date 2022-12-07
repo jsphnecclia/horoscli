@@ -1,13 +1,4 @@
-require "rake/testtask"
-
 task :default => [:clean, :c_build, :get_ephe]
-
-# Rake::TestTask.new(:test) do |test|
-#   test.libs << "test"
-#   test.libs << "lib"
-#   test.test_files = FileList['test/**/*.rb']
-# end
-#
 
 task :clean do
   `rm src/libswe.so`
