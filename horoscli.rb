@@ -3,6 +3,7 @@ require_relative 'lib/ruephbase.rb'
 require_relative 'lib/rueph.rb'
 require_relative 'lib/horoscli.rb'
 require 'time'
+require 'csv'
 require 'chronic'
 require 'geocoder'
 require 'optparse'
@@ -102,13 +103,17 @@ RETROGRADES_EXP = { sun: "",
                     neptune: "",
                     pluto: ""}
 
+
+exp = CSV.parse(File.read("astrologize.csv"), headers: true)
+puts exp[1][0] + "\t" + exp[1][1]
+puts exp[1][2]
+
+
 ARGV << '-h' if ARGV.empty?
 
 options = {}
 
 OptionParser.new do |parser|
-  # parser.on("-g", "--general"
-
   parser.on("-g", "--general", "Print general instantaneous information then exit.") do 
     options[:general] = true
   end
