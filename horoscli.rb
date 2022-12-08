@@ -9,104 +9,100 @@ require 'geocoder'
 require 'optparse'
 require 'optparse/time'
 
-SIGNS_EXP = { aries: "",
-              taurus: "",
-              gemini: "",
-              cancer: "",
-              leo: "",
-              virgo: "",
-              libra: "",
-              scorpio: "",
-              sagittarius: "",
-              capricorn: "",
-              aquarius: "",
-              pisces: "" }
-
-PLANETS_EXP = { sun: "",
-                moon: "",
-                mercury: "",
-                venus: "",
-                mars: "",
-                jupiter: "",
-                saturn: "",
-                uranus: "",
-                neptune: "",
-                pluto: ""}
-
-LUNAR_SIGNS_EXP = { aries: "",
-                    taurus: "",
-                    gemini: "",
-                    cancer: "",
-                    leo: "",
-                    virgo: "",
-                    libra: "",
-                    scorpio: "",
-                    sagittarius: "",
-                    capricorn: "",
-                    aquarius: "",
-                    pisces: "" }
-
-LUNAR_ASPECTS_EXP = { conjunct_sun: "",
-                      sextile_sun: "",
-                      trine_sun: "",
-                      square_sun: "",
-                      opposite_sun: "",
-                      conjunct_mercury: "",
-                      sextile_mercury: "",
-                      trine_mercury: "",
-                      square_mercury: "",
-                      opposite_mercury: "",
-                      conjunct_venus: "",
-                      sextile_venus: "",
-                      trine_venus: "",
-                      square_venus: "",
-                      opposite_venus: "",
-                      conjunct_mars: "",
-                      sextile_mars: "",
-                      trine_mars: "",
-                      square_mars: "",
-                      opposite_mars: "",
-                      conjunct_jupiter: "",
-                      sextile_jupiter: "",
-                      trine_jupiter: "",
-                      square_jupiter: "",
-                      opposite_jupiter: "",
-                      conjunct_saturn: "",
-                      sextile_saturn: "",
-                      trine_saturn: "",
-                      square_saturn: "",
-                      opposite_saturn: "",
-                      conjunct_uranus: "",
-                      sextile_uranus: "",
-                      trine_uranus: "",
-                      square_uranus: "",
-                      opposite_uranus: "",
-                      conjunct_neptune: "",
-                      sextile_neptune: "",
-                      trine_neptune: "",
-                      square_neptune: "",
-                      opposite_neptune: "",
-                      conjunct_pluto: "",
-                      sextile_pluto: "",
-                      trine_pluto: "",
-                      square_pluto: "",
-                      opposite_pluto: ""}
-
-RETROGRADES_EXP = { sun: "",
-                    moon: "",
-                    mercury: "",
-                    venus: "",
-                    mars: "",
-                    jupiter: "",
-                    saturn: "",
-                    uranus: "",
-                    neptune: "",
-                    pluto: ""}
-
-
-exp = CSV.parse(File.read("astrologize.csv"), headers: true)
-puts exp[1][0] + "\t" + exp[1][1]
-puts exp[1][2]
+# SIGNS_EXP = { aries: "",
+#               taurus: "",
+#               gemini: "",
+#               cancer: "",
+#               leo: "",
+#               virgo: "",
+#               libra: "",
+#               scorpio: "",
+#               sagittarius: "",
+#               capricorn: "",
+#               aquarius: "",
+#               pisces: "" }
+#
+# PLANETS_EXP = { sun: "",
+#                 moon: "",
+#                 mercury: "",
+#                 venus: "",
+#                 mars: "",
+#                 jupiter: "",
+#                 saturn: "",
+#                 uranus: "",
+#                 neptune: "",
+#                 pluto: ""}
+#
+# LUNAR_SIGNS_EXP = { aries: "",
+#                     taurus: "",
+#                     gemini: "",
+#                     cancer: "",
+#                     leo: "",
+#                     virgo: "",
+#                     libra: "",
+#                     scorpio: "",
+#                     sagittarius: "",
+#                     capricorn: "",
+#                     aquarius: "",
+#                     pisces: "" }
+#
+# LUNAR_ASPECTS_EXP = { conjunct_sun: "",
+#                       sextile_sun: "",
+#                       trine_sun: "",
+#                       square_sun: "",
+#                       opposite_sun: "",
+#                       conjunct_mercury: "",
+#                       sextile_mercury: "",
+#                       trine_mercury: "",
+#                       square_mercury: "",
+#                       opposite_mercury: "",
+#                       conjunct_venus: "",
+#                       sextile_venus: "",
+#                       trine_venus: "",
+#                       square_venus: "",
+#                       opposite_venus: "",
+#                       conjunct_mars: "",
+#                       sextile_mars: "",
+#                       trine_mars: "",
+#                       square_mars: "",
+#                       opposite_mars: "",
+#                       conjunct_jupiter: "",
+#                       sextile_jupiter: "",
+#                       trine_jupiter: "",
+#                       square_jupiter: "",
+#                       opposite_jupiter: "",
+#                       conjunct_saturn: "",
+#                       sextile_saturn: "",
+#                       trine_saturn: "",
+#                       square_saturn: "",
+#                       opposite_saturn: "",
+#                       conjunct_uranus: "",
+#                       sextile_uranus: "",
+#                       trine_uranus: "",
+#                       square_uranus: "",
+#                       opposite_uranus: "",
+#                       conjunct_neptune: "",
+#                       sextile_neptune: "",
+#                       trine_neptune: "",
+#                       square_neptune: "",
+#                       opposite_neptune: "",
+#                       conjunct_pluto: "",
+#                       sextile_pluto: "",
+#                       trine_pluto: "",
+#                       square_pluto: "",
+#                       opposite_pluto: ""}
+#
+# RETROGRADES_EXP = { sun: "",
+#                     moon: "",
+#                     mercury: "",
+#                     venus: "",
+#                     mars: "",
+#                     jupiter: "",
+#                     saturn: "",
+#                     uranus: "",
+#                     neptune: "",
+#                     pluto: ""}
+#
 
 
 ARGV << '-h' if ARGV.empty?
@@ -160,13 +156,18 @@ OptionParser.new do |parser|
       astrological placement of the moon and the angles the moon makes
       with the other planets. There are other tools as well.
       
+      Help topic can be a sign, e.g. 'GEMINI', which will tell you what it means
+      for the moon to be in that sign or a planet, e.g. 'MERCURY', which will 
+      describe the meaning of aspects that can be formed from the angle between 
+      the moon and that planet. The topic can also be 'VOID', for a definition 
+      of Void of Course Moon.
+
       DOC
       puts parser
       exit
     end
 
     options[:help_topic] = topic.upcase
-    puts options[:help_topic]
   end
 end.parse!
 
@@ -280,27 +281,20 @@ elsif options[:sign_of_degree]
   return
 elsif options[:bar]
   if options[:bar] == "1"
-    # sun and moon sign, with void of course
-    moon_aspects = horos.daily_aspects
-    puts "#{horos.sign_of(Rueph::SUN)}::#{horos.moon_void_instantaneous}"
-  elsif options[:bar] == "2"
     # sun and moon sign, no void of course
     puts "#{horos.sign_of(Rueph::SUN)}::#{horos.sign_of(Horoscli::MOON)}"
+  elsif options[:bar] == "2"
+    # Instantaneous Sign of the Moon
+    horos.print_lunar_instant
   elsif options[:bar] == "3"
     # Lunar Transit for the day
     horos.print_lunar_transit
-  elsif options[:bar] == "4"
-    horos.print_lunar_instant
   end
   horos.close
   return
 elsif options[:general]
   # Prints Sign of Sun
   puts "SUN in #{horos.sign_of(Rueph::SUN)}"
-
-  # Prints Sign of Moon
-  horos.print_lunar_instant
-  puts
 
   # Prints Aspects of the Moon
   puts "Daily Lunar Aspects"
@@ -316,6 +310,236 @@ elsif options[:general]
   puts "Lunar Transit"
   horos.print_lunar_transit
   puts
-end
+elsif options[:help_topic]
+    # Astrological Explanations CSV File
+    #
+    # exp[0-5]    definitions
+    # exp[6-17]   moon in signs
+    # exp[18-57]  lunar aspects
+    exp = CSV.pase(File.read("astrologize.csv"), headers: true)
+    
+    topic = options[:help_topic].upcase
 
+    case topic
+    when "BAR"
+      puts <<~DOC
+      The bar (-b) option provides minimal information, mainly for use in a bar
+      or other output script.
+
+      Option  1: 
+
+      DOC
+    # VOID
+    when "VOID"
+      puts exp[0][0]
+      puts exp[0][2]
+    # MOON SIGNS  
+    when "ARIES"
+      puts exp[6][0]
+      puts exp[6][2]
+    when "TAURUS"
+      puts exp[7][0]
+      puts exp[7][2]
+    when "GEMINI"
+      puts exp[8][0]
+      puts exp[8][2]
+    when "CANCER"
+      puts exp[9][0]
+      puts exp[9][2]
+    when "LEO"
+      puts exp[10][0]
+      puts exp[10][2]
+    when "VIRGO"
+      puts exp[11][0]
+      puts exp[11][2]
+    when "LIBRA"
+      puts exp[12][0]
+      puts exp[12][2]
+    when "SCORPIO"
+      puts exp[13][0]
+      puts exp[13][2]
+    when "SAGITTARIUS"
+      puts exp[14][0]
+      puts exp[14][2]
+    when "CAPRICORN"
+      puts exp[15][0]
+      puts exp[15][2]
+    when "AQUARIUS"
+      puts exp[16][0]
+      puts exp[16][2]
+    when "PISCES"
+      puts exp[17][0]
+      puts exp[17][2]
+    # ASPECTS
+    when "MERCURY"
+      # CONJUNCT
+      puts exp[18][0] 
+      puts exp[18][2]
+
+      # SQUARE
+      puts 
+      puts exp[26][0]
+      puts exp[26][2]
+
+      # OPPOSITE
+      puts
+      puts exp[34][0]
+      puts exp[34][2]
+
+      # SEXTILE
+      puts
+      puts exp[42][0]
+      puts exp[42][2]
+
+      # TRINE
+      puts
+      puts exp[50][0]
+      puts exp[50][2]
+
+    when "VENUS"
+      puts exp[19][0] 
+      puts exp[19][2]
+
+      puts 
+      puts exp[27][0]
+      puts exp[27][2]
+
+      puts
+      puts exp[35][0]
+      puts exp[35][2]
+
+      puts
+      puts exp[43][0]
+      puts exp[43][2]
+
+      puts
+      puts exp[51][0]
+      puts exp[51][2]
+
+    when "MARS"
+      puts exp[20][0] 
+      puts exp[20][2]
+
+      puts 
+      puts exp[28][0]
+      puts exp[28][2]
+
+      puts
+      puts exp[36][0]
+      puts exp[36][2]
+
+      puts
+      puts exp[44][0]
+      puts exp[44][2]
+
+      puts
+      puts exp[52][0]
+      puts exp[52][2]
+
+    when "JUPITER"
+      puts exp[21][0] 
+      puts exp[21][2]
+
+      puts 
+      puts exp[29][0]
+      puts exp[29][2]
+
+      puts
+      puts exp[37][0]
+      puts exp[37][2]
+
+      puts
+      puts exp[45][0]
+      puts exp[45][2]
+
+      puts
+      puts exp[53][0]
+      puts exp[53][2]
+
+    when "SATURN"
+      puts exp[22][0] 
+      puts exp[22][2]
+
+      puts 
+      puts exp[30][0]
+      puts exp[30][2]
+
+      puts
+      puts exp[38][0]
+      puts exp[38][2]
+
+      puts
+      puts exp[46][0]
+      puts exp[46][2]
+
+      puts
+      puts exp[54][0]
+      puts exp[54][2]
+
+    when "URANUS"
+      puts exp[23][0] 
+      puts exp[23][2]
+
+      puts 
+      puts exp[31][0]
+      puts exp[31][2]
+
+      puts
+      puts exp[39][0]
+      puts exp[39][2]
+
+      puts
+      puts exp[47][0]
+      puts exp[47][2]
+
+      puts
+      puts exp[55][0]
+      puts exp[55][2]
+
+    when "NEPTUNE"
+      puts exp[24][0] 
+      puts exp[24][2]
+
+      puts 
+      puts exp[32][0]
+      puts exp[32][2]
+
+      puts
+      puts exp[40][0]
+      puts exp[40][2]
+
+      puts
+      puts exp[48][0]
+      puts exp[48][2]
+
+      puts
+      puts exp[56][0]
+      puts exp[56][2]
+
+    when "PLUTO"
+      puts exp[25][0] 
+      puts exp[25][2]
+
+      puts 
+      puts exp[33][0]
+      puts exp[33][2]
+
+      puts
+      puts exp[41][0]
+      puts exp[41][2]
+
+      puts
+      puts exp[49][0]
+      puts exp[49][2]
+
+      puts
+      puts exp[57][0]
+      puts exp[57][2]
+
+    else
+      puts "Not a valid help topic."
+    end
+    horos.close
+    return
+end
 horos.close

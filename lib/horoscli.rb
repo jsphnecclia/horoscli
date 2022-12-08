@@ -326,14 +326,27 @@ class Horoscli
     end
   end
 
+  # VERBOSE Lunar Instant
+  #
+  # def print_lunar_instant
+  #   if self.lunar_instant == "ERROR"
+  #     puts "MOON instantaneous SIGN ERROR"
+  #   elsif self.lunar_instant == "V/C"
+  #     puts "MOON V/C"
+  #   else
+  #     puts "MOON in #{self.lunar_instant}"
+  #   end
+  # end
+
   def print_lunar_instant
     if self.lunar_instant == "ERROR"
       puts "MOON instantaneous SIGN ERROR"
     elsif self.lunar_instant == "V/C"
-      puts "MOON V/C"
+      puts "V/C"
     else
-      puts "MOON in #{self.lunar_instant}"
+      puts "#{self.lunar_instant}"
     end
   end
+
 
 end
