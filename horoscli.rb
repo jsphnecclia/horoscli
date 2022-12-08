@@ -173,8 +173,9 @@ end.parse!
 
 
 time = options[:date]? options[:date] : Time.now
-puts time
-puts
+unless options[:help_topic] or options[:bar]
+  puts time
+end
 
 horos = Horoscli.new(time)
 
@@ -284,9 +285,12 @@ elsif options[:bar]
     # sun and moon sign, no void of course
     puts "#{horos.sign_of(Rueph::SUN)}::#{horos.sign_of(Horoscli::MOON)}"
   elsif options[:bar] == "2"
-    # Instantaneous Sign of the Moon
+    # Instantaneous Sign of the Moon (With Void of Course)
     horos.print_lunar_instant
   elsif options[:bar] == "3"
+    # Instantaneous Sign of the Moon (No Void of Course)
+    puts "#{horos.sign_of(Horoscli::MOON)}"
+  elsif options[:bar] == "4"
     # Lunar Transit for the day
     horos.print_lunar_transit
   end
@@ -316,17 +320,21 @@ elsif options[:help_topic]
     # exp[0-5]    definitions
     # exp[6-17]   moon in signs
     # exp[18-57]  lunar aspects
-    exp = CSV.pase(File.read("astrologize.csv"), headers: true)
+    exp = CSV.parse(File.read("astrologize.csv"), headers: true)
     
     topic = options[:help_topic].upcase
 
     case topic
     when "BAR"
       puts <<~DOC
+
       The bar (-b) option provides minimal information, mainly for use in a bar
       or other output script.
 
-      Option  1: 
+      Option 1: Shows the SUN and MOON sign in the format <SUN>::<MOON>.
+      Option 2: Shows the instantaneous sign of the moon, with Void of Course.
+      Option 3: Shows the instantaneous sign of the moon, ignoring Void of Course.
+      Option 4: Shows the lunar transit times for the day.
 
       DOC
     # VOID
