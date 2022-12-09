@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-#
+
 # This file is part of horoscli.
 #
 # Copyright (c) 2022 Parker McGowan
