@@ -25,102 +25,6 @@ require 'geocoder'
 require 'optparse'
 require 'optparse/time'
 
-# SIGNS_EXP = { aries: "",
-#               taurus: "",
-#               gemini: "",
-#               cancer: "",
-#               leo: "",
-#               virgo: "",
-#               libra: "",
-#               scorpio: "",
-#               sagittarius: "",
-#               capricorn: "",
-#               aquarius: "",
-#               pisces: "" }
-#
-# PLANETS_EXP = { sun: "",
-#                 moon: "",
-#                 mercury: "",
-#                 venus: "",
-#                 mars: "",
-#                 jupiter: "",
-#                 saturn: "",
-#                 uranus: "",
-#                 neptune: "",
-#                 pluto: ""}
-#
-# LUNAR_SIGNS_EXP = { aries: "",
-#                     taurus: "",
-#                     gemini: "",
-#                     cancer: "",
-#                     leo: "",
-#                     virgo: "",
-#                     libra: "",
-#                     scorpio: "",
-#                     sagittarius: "",
-#                     capricorn: "",
-#                     aquarius: "",
-#                     pisces: "" }
-#
-# LUNAR_ASPECTS_EXP = { conjunct_sun: "",
-#                       sextile_sun: "",
-#                       trine_sun: "",
-#                       square_sun: "",
-#                       opposite_sun: "",
-#                       conjunct_mercury: "",
-#                       sextile_mercury: "",
-#                       trine_mercury: "",
-#                       square_mercury: "",
-#                       opposite_mercury: "",
-#                       conjunct_venus: "",
-#                       sextile_venus: "",
-#                       trine_venus: "",
-#                       square_venus: "",
-#                       opposite_venus: "",
-#                       conjunct_mars: "",
-#                       sextile_mars: "",
-#                       trine_mars: "",
-#                       square_mars: "",
-#                       opposite_mars: "",
-#                       conjunct_jupiter: "",
-#                       sextile_jupiter: "",
-#                       trine_jupiter: "",
-#                       square_jupiter: "",
-#                       opposite_jupiter: "",
-#                       conjunct_saturn: "",
-#                       sextile_saturn: "",
-#                       trine_saturn: "",
-#                       square_saturn: "",
-#                       opposite_saturn: "",
-#                       conjunct_uranus: "",
-#                       sextile_uranus: "",
-#                       trine_uranus: "",
-#                       square_uranus: "",
-#                       opposite_uranus: "",
-#                       conjunct_neptune: "",
-#                       sextile_neptune: "",
-#                       trine_neptune: "",
-#                       square_neptune: "",
-#                       opposite_neptune: "",
-#                       conjunct_pluto: "",
-#                       sextile_pluto: "",
-#                       trine_pluto: "",
-#                       square_pluto: "",
-#                       opposite_pluto: ""}
-#
-# RETROGRADES_EXP = { sun: "",
-#                     moon: "",
-#                     mercury: "",
-#                     venus: "",
-#                     mars: "",
-#                     jupiter: "",
-#                     saturn: "",
-#                     uranus: "",
-#                     neptune: "",
-#                     pluto: ""}
-#
-
-
 ARGV << '-h' if ARGV.empty?
 
 options = {}
@@ -128,6 +32,10 @@ options = {}
 OptionParser.new do |parser|
   parser.on("-g", "--general", "Print general instantaneous information then exit.") do 
     options[:general] = true
+  end
+
+  parser.on("-v", "--verbose", "Give meaning of the daily transits and aspects") do
+    options[:verbose] = true
   end
 
   parser.on("-d", "--date DATETIME", "Perform calculations for a certain date, e.g. 2020-10-23 14:00. Natural Language Supported") do |date|
@@ -190,7 +98,7 @@ end.parse!
 
 time = options[:date]? options[:date] : Time.now
 unless options[:help_topic] or options[:bar]
-  puts time
+  puts "#{time}\n\n"
 end
 
 horos = Horoscli.new(time)
@@ -321,6 +229,10 @@ elsif options[:general]
   horos.print_lunar_aspects
   puts 
 
+  #TODO verbose mode lunar aspects
+  if options[:verbose]
+  end
+
   # Prints last aspect before vc moon
   puts "Last Aspect Before Void of Course Moon"
   puts horos.print_last_aspect_before_void 
@@ -330,6 +242,12 @@ elsif options[:general]
   puts "Lunar Transit"
   horos.print_lunar_transit
   puts
+
+  #TODO verbose mode moon signs
+  if options[:verbose]
+      # puts exp[0][0]
+      # puts exp[0][2]
+  end
 elsif options[:help_topic]
     # Astrological Explanations CSV File
     #
